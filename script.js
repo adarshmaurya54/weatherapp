@@ -32,6 +32,10 @@ async function checkWeather(){
         let weatherImg = document.querySelector(".weather img");
         let humidity = document.querySelector(".humidity");
         let wind = document.querySelector(".wind");
+        let max = document.querySelector(".max");
+        let min = document.querySelector(".min");
+        max.innerHTML = Math.round(data.main.temp_max);
+        min.innerHTML = Math.round(data.main.temp_min);
         wind.innerHTML = data.wind.speed + "<span> km/h</span>"
         humidity.innerHTML = data.main.humidity + "%";
         weatherImg.src = `./images/${data.weather[0].main}.png`
