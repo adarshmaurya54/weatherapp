@@ -3,9 +3,9 @@ let apiurl = `https://api.openweathermap.org/data/2.5/weather?units=metric&q=del
 let searchContent = null;
 const searchbox = document.querySelector(".search-box input");
 const getWeatherByCityName = (e) => {
-    if(e.key == "Enter"){
+    if (e.key == "Enter") {
         searchContent = e.target.value.trim();
-        if(searchContent != "" && searchContent != null){
+        if (searchContent != "" && searchContent != null) {
             apiurl = `https://api.openweathermap.org/data/2.5/weather?units=metric&q=${searchContent}&appid=${apikey}`;
             checkWeather();
         }
@@ -14,22 +14,20 @@ const getWeatherByCityName = (e) => {
 
 const searchCityWeather = () => {
     searchContent = searchbox.value.trim();
-    if(searchContent != "" && searchContent != null){
+    if (searchContent != "" && searchContent != null) {
         apiurl = `https://api.openweathermap.org/data/2.5/weather?units=metric&q=${searchContent}&appid=${apikey}`;
         checkWeather();
     }
 }
-async function checkWeather(){
+async function checkWeather() {
     let response = await fetch(apiurl);
     let data = await response.json();
-    console.log(data);
-    if(data.cod == 404){
+    if (data.cod == 404) {
         document.querySelector(".notfoundmsg").classList.add("show");
-    }else{
+    } else {
         document.querySelector(".notfoundmsg").classList.remove("show");
         let temp = document.querySelector(".temp");
         let city = document.querySelector(".city");
-        let weatherImg = document.querySelector(".weather img");
         let humidity = document.querySelector(".humidity");
         let wind = document.querySelector(".wind");
         let max = document.querySelector(".max");
@@ -38,11 +36,26 @@ async function checkWeather(){
         min.innerHTML = Math.round(data.main.temp_min);
         wind.innerHTML = data.wind.speed + "<span> km/h</span>"
         humidity.innerHTML = data.main.humidity + "%";
-        weatherImg.src = `./images/${data.weather[0].main}.png`
-        temp.innerHTML = Math.round(data.main.temp) + "°c";
+        temp.innerHTML = Math.round(data.main.temp) + "°C";
         city.innerHTML = data.name;
+    }
+    var current = {
+        "sunrise": data.sys.sunrise,
+        "sunset": data.sys.sunset,
+    }
+    
+    if (new Date().valueOf() / 1000 < current.sunset) {
+        document.body.classList.remove("dark");
+        let weatherImg = document.querySelector(".weather img");
+        weatherImg.src = `./images/${data.weather[0].main}.png`;
+    } else {
+        document.body.classList.add("dark");
+        let weatherImg = document.querySelector(".weather img");
+        weatherImg.src = `./images/night/${data.weather[0].main}.png`;
+        document.querySelectorAll(".col img")[0].style.filter = "invert(0%)";
+        document.querySelectorAll(".col img")[1].style.filter = "invert(0%)";
     }
 }
 checkWeather();
 
-searchbox.addEventListener("keyup",getWeatherByCityName);
+searchbox.addEventListener("keyup", getWeatherByCityName);

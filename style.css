@@ -1,14 +1,28 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@900&display=swap');
 *{
     padding: 0;
     margin: 0;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
 }
+:root{
+    --daybg: white;
+    --daycolor: black;
+}
+body.dark {
+    --daybg: black;
+    --daycolor: white;
+}
 body{
     background: #222;
     position: relative;
     height: 100vh;
+}
+body.dark .card{
+    background: url(./images/night.jpg);
+    background-size: cover;
+    background-position: center;
 }
 .card{
     user-select: none;
@@ -18,7 +32,7 @@ body{
     transform: translate(-50%,-50%);
     width: 90%;
     max-width: 450px;
-    background: linear-gradient(135deg,#00feba,#5b548a);
+    background: var(--daybg);
     border-radius: 20px;
     padding: 30px 20px;
     text-align: center;
@@ -29,23 +43,28 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-bottom: 50px;
 }
 .search-box input{
+    text-align: center;
+    border: 2px solid rgba(0, 0, 0, 0.6);
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
     outline: none;
-    border: none;
     color: #555;
     width: 75%;
     flex: 1;
     height: 50px;
-    border-radius: 50px;
+    border-radius: 20px;
     padding: 10px 20px;
     background: #ebfffc;
     margin-right: 10px;
     font-size: 18px;
 }
 .search-box button{
+    border: 2px solid rgba(0, 0, 0, 0.6);
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+    background: #ebfffc;
     outline: none;
-    border: none;
     height: 50px;
     width: 50px;
     border-radius: 50%;
@@ -59,14 +78,19 @@ body{
     width: 16px;
     object-fit: contain;
 }
+.weather{
+    color: var(--daycolor);
+}
 .weather .weather-icon{
-    margin-top: 20px;
+    margin-bottom: 20px;
     width: 150px;
 }
 .weather .temp{
+    letter-spacing: 5px;
+    font-family: 'Roboto Slab', serif;
     margin-top: -10px;
     font-size: 4em;
-    font-weight: 600;
+    margin-bottom: 10px;
 }
 .weather .city{
     letter-spacing: 2px;
@@ -75,6 +99,7 @@ body{
     font-weight: 300;
 }
 .details{
+    color: var(--daycolor);
     margin-top: 30px;
     display: flex;
     align-items: center;
@@ -85,6 +110,7 @@ body{
     align-items: center;
 }
 .col img{
+    filter: invert(100%);
     width: 30px;
     height: 30px;
 }
