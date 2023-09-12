@@ -19,12 +19,21 @@ const searchCityWeather = () => {
         checkWeather();
     }
 }
+document.querySelector(".container").style.display = "block";
+
 async function checkWeather() {
+    document.querySelector(".loader").style.display = "block";
+    document.querySelector(".container").style.display = "none";
+
     let response = await fetch(apiurl);
     let data = await response.json();
     if (data.cod == 404) {
+        document.querySelector(".loader").style.display = "none";
+        document.querySelector(".container").style.display = "block";
         document.querySelector(".notfoundmsg").classList.add("show");
     } else {
+        document.querySelector(".loader").style.display = "none";
+        document.querySelector(".container").style.display = "block";
         document.querySelector(".notfoundmsg").classList.remove("show");
         let temp = document.querySelector(".temp");
         let city = document.querySelector(".city");
@@ -38,22 +47,23 @@ async function checkWeather() {
         humidity.innerHTML = data.main.humidity + "%";
         temp.innerHTML = Math.round(data.main.temp) + "°C";
         city.innerHTML = data.name;
-    }
-    var current = {
-        "sunrise": data.sys.sunrise,
-        "sunset": data.sys.sunset,
-    }
-    
-    if (new Date().valueOf() / 1000 < current.sunset) {
-        document.body.classList.remove("dark");
-        let weatherImg = document.querySelector(".weather img");
-        weatherImg.src = `./images/${data.weather[0].main}.png`;
-    } else {
-        document.body.classList.add("dark");
-        let weatherImg = document.querySelector(".weather img");
-        weatherImg.src = `./images/night/${data.weather[0].main}.png`;
-        document.querySelectorAll(".col img")[0].style.filter = "invert(0%)";
-        document.querySelectorAll(".col img")[1].style.filter = "invert(0%)";
+        var current = {
+            "sunrise": data.sys.sunrise,
+            "sunset": data.sys.sunset,
+        }
+
+        if (new Date().valueOf() / 1000 < current.sunset) {
+            document.body.classList.remove("dark");
+            let weatherImg = document.querySelector(".weather img");
+            if (data.weather[0].main === 'Fog')
+                weatherImg.src = `./images/${data.weather[0].main}.svg`;
+            else
+                weatherImg.src = `./images/${data.weather[0].main}.png`;
+        } else {
+            document.body.classList.add("dark");
+            let weatherImg = document.querySelector(".weather img");
+            weatherImg.src = `./images/night/${data.weather[0].main}.png`;
+        }
     }
 }
 checkWeather();
