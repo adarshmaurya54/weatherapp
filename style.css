@@ -50,8 +50,7 @@ body.dark .loader{
     display: none!important;
 }
 .card{
-    background-size: cover;
-    background-position: center;
+    background: white;
     user-select: none;
     position: absolute;
     top: 50%;
