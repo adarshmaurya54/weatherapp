@@ -50,7 +50,6 @@ body.dark .loader{
     display: none!important;
 }
 .card{
-    background: url(./images/clear.gif);
     background-size: cover;
     background-position: center;
     user-select: none;
